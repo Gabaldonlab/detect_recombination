@@ -236,6 +236,8 @@ def filter_results(tag,d,minCov,type_rec):
 				else:
 					pos2 = start2 + "-" + end2
 			
+			info = chr1 + "\t" + start1 + "\t" + end1 + "\t" + chr2 + "\t" + start2 + "\t" + end2 + "\t" + chr2 + "\t" + start2 + "\t" + end2 + "\t" + chr1 + "\t" + start1 + "\t" + end1
+			
 			infoA = chr1 + "\t" + pos1 + "\t" + chr2 + "\t" + pos2 #final information
 			info_bedA = chr1 + "\t" + start1 + "\t" + end1 + "\t" + chr2 + "\t" + start2 + "\t" + end2
 			
