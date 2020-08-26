@@ -143,11 +143,11 @@ def detect_recomb(readL,maxM,tag,codeA,codeB,snps,type_rec):
 					chrm1,start1,end1,mismatches1,name1,strand1,species1 = read_coord[read][0].split("\t")
 					chrm2,start2,end2,mismatches2,name2,strand2,species2 = read_coord[read][1].split("\t")
 				
-					if species1 != species2: #make sure that they align in chromosomes from different species				
+					if species1 == species2: #make sure that they align in chromosomes from the same species				
 						i += 1
 						print >>out, chrm1 + "\t" + start1 + "\t" + end1 + "\t" + mismatches1 + "\t" + name1 + "\t" + strand1 + "\t" + chrm2 + "\t" + start2 + "\t" + end2 + "\t" + mismatches2 + "\t" + name2 + "\t" + strand2
 					
-			print "\t", "\t", "Reads supporting inter-species recombination: ", str(i)
+			print "\t", "\t", "Reads supporting intra-species recombination: ", str(i)
 			out.close()
 		else:
 			print "Type of recombination is not valid!"
