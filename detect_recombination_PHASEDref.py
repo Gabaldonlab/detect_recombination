@@ -6,19 +6,10 @@ By Veronica Mixao
 vmixao@gmail.com
 
 Objective: Detect recombination events when performing read-mapping to a phased reference genome
-Last change: 16/01/2020
 """
 
 import argparse
 import os
-
-##############################
-#Edit the path of each program
-bedtools = "/usr/bin/bedtools"
-samtools = "/usr/bin/samtools"
-##############################
-
-
 
 def bam2bed(bamfile,tag,multimap):
 	#Obtain a bed file with read pairs mapped in different chromosomes
@@ -42,7 +33,7 @@ def detect_recomb(readL,maxM,tag,codeA,codeB,snps,type_rec):
 	special_reads = {}
 	if snps != "":
 		#identify reads overlapping high-density SNP regions
-		os.system(bedtools + " intersect -a " + tag + ".reads.bed" + " -b " + snps + " -c  > " + tag + ".reads.snp_count.bed")
+		os.system("bedtools intersect -a " + tag + ".reads.bed" + " -b " + snps + " -c  > " + tag + ".reads.snp_count.bed")
 		f_open = open(tag + ".reads.snp_count.bed")
 		f = f_open.readlines()
 		
@@ -163,10 +154,10 @@ def filter_results(tag,d,minCov,type_rec):
 	
 	print "\t", "Getting recombination blocks and filtering the results..."
 	os.system("sort -k1,1 -k 2,2n " + in_name + " > " + in_name + "Sorted") #sort bed file
-	os.system(bedtools + " merge -c 5,6 -o count,collapse -d " + str(d) + " -i " + in_name + "Sorted > temp1.bed") #merge results for species 1
+	os.system("bedtools merge -c 5,6 -o count,collapse -d " + str(d) + " -i " + in_name + "Sorted > temp1.bed") #merge results for species 1
 	os.system("rm " + in_name) #we do not need this file anymore
 	
-	os.system(bedtools + " intersect -a temp1.bed -b " + in_name + "Sorted -wo > temp2.bed") #recover information on the matches of each species1 block on species2
+	os.system("bedtools intersect -a temp1.bed -b " + in_name + "Sorted -wo > temp2.bed") #recover information on the matches of each species1 block on species2
 	os.system("rm temp1.bed")
 	
 	temp_open = open("temp2.bed", "r")
@@ -182,8 +173,8 @@ def filter_results(tag,d,minCov,type_rec):
 	
 	os.system("sort -k1,1 -k 2,2n temp3.bed > temp3.bedSorted")
 	
-	os.system(bedtools + " merge -c 4,4 -o count,collapse -d " + str(d) + " -i temp3.bedSorted > temp4.bed") #repeating but for species 2
-	os.system(bedtools + " intersect -a temp4.bed -b temp3.bedSorted -wao > temp5.bed") 
+	os.system("bedtools merge -c 4,4 -o count,collapse -d " + str(d) + " -i temp3.bedSorted > temp4.bed") #repeating but for species 2
+	os.system("bedtools intersect -a temp4.bed -b temp3.bedSorted -wao > temp5.bed") 
 	
 	os.system("rm temp3.bed temp3.bedSorted temp4.bed")
 	
